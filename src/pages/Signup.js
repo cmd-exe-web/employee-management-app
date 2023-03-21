@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { signUp } from "../services/user-service";
+import { toast } from "react-toastify";
 import {
   Button,
   Card,
@@ -7,6 +9,7 @@ import {
   Col,
   Container,
   Form,
+  FormFeedback,
   FormGroup,
   Input,
   Label,
@@ -44,17 +47,46 @@ const Signup = () => {
   //Submitting the form
   const submitForm = (event) => {
     event.preventDefault();
+
+    // if (error.isError) {
+    //   toast.error(
+    //     "Form data is invalid, correct all details then submit again!"
+    //   );
+    //   return;
+    // }
+
     console.log(data);
     //data validate
 
     //call server api for sending data
+    signUp(data)
+      .then((response) => {
+        console.log(response);
+        console.log("success log");
+        toast.success(
+          "User is registered successfully! User id: " + response.email
+        );
+        setData({
+          name: "",
+          email: "",
+          password: "",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("Error log!");
+        //handling errors
+        setError({
+          errors: error,
+          isError: true,
+        });
+      });
   };
 
   return (
     <Base>
       <Container>
         <Row className="mt-4">
-          {JSON.stringify(data)}
           <Col
             sm={{
               size: 6,
@@ -68,6 +100,7 @@ const Signup = () => {
               <CardBody>
                 {/* Creating registration form */}
                 <Form onSubmit={submitForm}>
+                  {/* Name field */}
                   <FormGroup>
                     <Label for="name">Enter Name</Label>
                     <Input
@@ -76,8 +109,16 @@ const Signup = () => {
                       id="name"
                       onChange={(e) => handleChange(e, "name")}
                       value={data.name}
+                      invalid={
+                        error.errors?.response?.data?.name ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.name}
+                    </FormFeedback>
                   </FormGroup>
+
+                  {/* Email field */}
                   <FormGroup>
                     <Label for="email">Enter email</Label>
                     <Input
@@ -86,8 +127,16 @@ const Signup = () => {
                       id="email"
                       onChange={(e) => handleChange(e, "email")}
                       value={data.email}
+                      invalid={
+                        error.errors?.response?.data?.email ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.email}
+                    </FormFeedback>
                   </FormGroup>
+
+                  {/* Password field */}
                   <FormGroup>
                     <Label for="password">Enter password</Label>
                     <Input
@@ -96,8 +145,15 @@ const Signup = () => {
                       id="password"
                       onChange={(e) => handleChange(e, "password")}
                       value={data.password}
+                      invalid={
+                        error.errors?.response?.data?.password ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.password}
+                    </FormFeedback>
                   </FormGroup>
+
                   <Container className="text-center">
                     <Button color="primary">Register</Button>
                     <Button
