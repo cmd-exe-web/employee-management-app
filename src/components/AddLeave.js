@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   Button,
   Card,
@@ -41,7 +42,7 @@ const AddLeave = () => {
     //handling exceptions
     console.log(leave);
     if (leave.date == "") {
-      alert("Date is required");
+      toast.error("Date is required");
       return;
     }
 
@@ -49,12 +50,15 @@ const AddLeave = () => {
     leave["userId"] = user.id;
     doCreateLeave(leave)
       .then((data) => {
-        alert("Leave applied!");
-        console.log(leave);
+        toast.success("Leave applied!");
+        // console.log(leave);
+        setLeave({
+          date: "",
+        });
       })
       .catch((error) => {
-        alert("error");
-        console.log(error);
+        toast.error("Leave couldn't be applied due to some error!!");
+        // console.log(error);
       });
   };
 
@@ -62,7 +66,7 @@ const AddLeave = () => {
     <div className="wrapper">
       <Card className="shadow-sm">
         <CardBody>
-          {JSON.stringify(leave)}
+          {/* {JSON.stringify(leave)} */}
           <h3>Apply leaves</h3>
           <Form onSubmit={createLeave}>
             <div className="my-3">

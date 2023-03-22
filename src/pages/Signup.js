@@ -60,7 +60,7 @@ const Signup = () => {
     console.log(data);
     //data validate
     if (data.role == 0) {
-      alert("Please select a role!");
+      toast.error("Please select a role!");
       return;
     }
 

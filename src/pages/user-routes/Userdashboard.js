@@ -1,6 +1,7 @@
 import { Card, CardBody, Container } from "reactstrap";
 import AddLeave from "../../components/AddLeave";
 import Base from "../../components/Base";
+import Leaves from "../../components/Leaves";
 
 const Userdashboard = () => {
   return (
