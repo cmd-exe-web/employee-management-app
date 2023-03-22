@@ -13,6 +13,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import { doLogin } from "../auth";
 import Base from "../components/Base";
 import { loginUser } from "../services/user-service";
 
@@ -50,8 +51,14 @@ const Login = () => {
     //submit the login detail to server to generate token
     loginUser(loginDetail)
       .then((data) => {
-        console.log("user login: ");
         console.log(data);
+
+        //save the data to localStorage
+        doLogin(data, () => {
+          console.log("login detail is saved to local storage");
+          //redirect to user dashboard page
+        });
+
         toast.success("Login successful");
       })
       .catch((error) => {
