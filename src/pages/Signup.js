@@ -22,6 +22,7 @@ const Signup = () => {
     name: "",
     email: "",
     password: "",
+    role: "",
   });
 
   const [error, setError] = useState({
@@ -41,6 +42,7 @@ const Signup = () => {
       name: "",
       email: "",
       password: "",
+      role: "",
     });
   };
 
@@ -75,6 +77,11 @@ const Signup = () => {
       .catch((error) => {
         console.log(error);
         console.log("Error log!");
+        if (error.response.status == 400) {
+          toast.error(error.response.data.message);
+        } else {
+          toast.error("Something went wrong on server!!");
+        }
         //handling errors
         setError({
           errors: error,
@@ -152,6 +159,19 @@ const Signup = () => {
                     <FormFeedback>
                       {error.errors?.response?.data?.password}
                     </FormFeedback>
+                  </FormGroup>
+                  {/* Roles field */}
+                  <FormGroup>
+                    <Label for="role">Select role</Label>
+                    <Input
+                      id="role"
+                      type="select"
+                      onChange={(e) => handleChange(e, "role")}
+                    >
+                      <option value="ROLE_ADMIN">Admin</option>
+                      <option value="ROLE_MANAGER">Manager</option>
+                      <option value="ROLE_EMPLOYEE">Employee</option>
+                    </Input>
                   </FormGroup>
 
                   <Container className="text-center">
