@@ -59,6 +59,10 @@ const Signup = () => {
 
     console.log(data);
     //data validate
+    if (data.role == 0) {
+      alert("Please select a role!");
+      return;
+    }
 
     //call server api for sending data
     signUp(data)
@@ -72,6 +76,7 @@ const Signup = () => {
           name: "",
           email: "",
           password: "",
+          role: "",
         });
       })
       .catch((error) => {
@@ -87,6 +92,7 @@ const Signup = () => {
           errors: error,
           isError: true,
         });
+        console.log(error.errors);
       });
   };
 
@@ -167,7 +173,11 @@ const Signup = () => {
                       id="role"
                       type="select"
                       onChange={(e) => handleChange(e, "role")}
+                      defaultValue={0}
                     >
+                      <option disabled value={0}>
+                        --Select role--
+                      </option>
                       <option value="ROLE_ADMIN">Admin</option>
                       <option value="ROLE_MANAGER">Manager</option>
                       <option value="ROLE_EMPLOYEE">Employee</option>
