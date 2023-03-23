@@ -11,6 +11,6 @@ export const createLeave = (leaveData) => {
 //get all leaves by userId
 export const loadAllLeaves = (userId) => {
   return privateAxios
-    .get(`/user/${userId}/leaves`)
+    .get(`/api/user/${userId}/leaves`)
     .then((response) => response.data);
 };
