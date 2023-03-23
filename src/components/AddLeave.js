@@ -21,6 +21,7 @@ const AddLeave = () => {
 
   useEffect(() => {
     setUser(getCurrentUserDetail());
+    console.log(user);
   }, []);
 
   //field changed function

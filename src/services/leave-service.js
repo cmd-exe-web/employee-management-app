@@ -8,7 +8,9 @@ export const createLeave = (leaveData) => {
     .then((response) => response.data);
 };
 
-// //get all leaves by userId
-// export const loadAllLeaves = (userId) => {
-//   return privateAxios.get(`/user/${userId}/leaves`).then(response=>response.data);
-// }
+//get all leaves by userId
+export const loadAllLeaves = (userId) => {
+  return privateAxios
+    .get(`/user/${userId}/leaves`)
+    .then((response) => response.data);
+};

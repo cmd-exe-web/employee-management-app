@@ -3,10 +3,6 @@ import Base from "../../components/Base";
 import Leaves from "../../components/Leaves";
 
 const ProfileInfo = () => {
-  useEffect(() => {
-    //load all the leaves from server
-  }, []);
-
   return (
     <Base>
       <div>
