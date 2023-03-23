@@ -1,5 +1,6 @@
 import { Card, CardBody, Container } from "reactstrap";
 import AddLeave from "../../components/AddLeave";
+import AddTask from "../../components/AddTask";
 import Base from "../../components/Base";
 import Leaves from "../../components/Leaves";
 
@@ -13,6 +14,7 @@ const Userdashboard = () => {
           </CardBody>
         </Card>
         <AddLeave />
+        <AddTask />
       </Container>
     </Base>
   );
