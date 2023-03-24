@@ -14,3 +14,17 @@ export const loadAllLeaves = (userId) => {
     .get(`/api/user/${userId}/leaves`)
     .then((response) => response.data);
 };
+
+//delete Leave
+export const deleteLeave = (leaveId) => {
+  return privateAxios
+    .delete(`/api/leaves/${leaveId}`)
+    .then((response) => response.data);
+};
+
+//update leave
+export const updateLeave = (leave) => {
+  return privateAxios
+    .put(`/api/leaves/${leave.id}`, leave)
+    .then((response) => response.data);
+};

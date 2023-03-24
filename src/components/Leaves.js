@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { loadAllLeaves } from "../services/leave-service";
+import {
+  loadAllLeaves,
+  deleteLeave as doDeleteLeave,
+  updateLeave as doUpdateLeave,
+} from "../services/leave-service";
 import { getCurrentUserDetail } from "../auth";
 import { Button, Col, Row } from "reactstrap";
 import Leave from "./Leave";
+import { toast } from "react-toastify";
 
 const Leaves = () => {
   const [user, setUser] = useState(undefined);
@@ -14,36 +19,16 @@ const Leaves = () => {
     console.log("setting user details useEffect called");
   }, []);
 
-  // useEffect(() => {
-  //   console.log(user);
-  // }, [user]);
-
-  // const loadAllLeaves = (event) => {
-  //   console.log("logging before sending the get request");
-  //   console.log(user);
-  //   let userId = user?.id;
-  //   console.log(userId);
-
-  //   // load all the leaves from server
-  //   loadAllLeaves(userId)
-  //     .then((data) => {
-  //       console.log(data);
-  //       setLeaves(data);
-  //       console.log("printing leaves");
-  //       console.log(leaves);
-  //       // console.log(leaves[0]);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
-
   useEffect(() => {
     console.log("printing user before calling the api");
     console.log(user);
     console.log("^^^^ user object");
     // let userId = user?.id;
     console.log(user?.id);
+    loadLeaveData();
+  }, [user]);
+
+  const loadLeaveData = () => {
     loadAllLeaves(user?.id)
       .then((data) => {
         console.log(data);
@@ -52,14 +37,37 @@ const Leaves = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [user]);
+  };
 
-  // useEffect(() => {
-  //   console.log(leaves);
-  //   leaves.map((leave) => {
-  //     console.log(leave);
-  //   });
-  // }, [leaves]);
+  //delete leave handler
+  const deleteLeave = (leaveObject) => {
+    //calling delete api
+    doDeleteLeave(leaveObject.id)
+      .then((resp) => {
+        console.log(resp);
+        toast.success("Leave is deleted");
+        loadLeaveData();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error in deleting leave");
+      });
+  };
+
+  //update leave handler
+  const updateLeave = (leaveObject) => {
+    //calling update api
+    doUpdateLeave(leaveObject)
+      .then((resp) => {
+        console.log(resp);
+        toast.success("Leave update");
+        loadLeaveData();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("Error updating leave");
+      });
+  };
 
   if (leaves[0] === undefined) {
     <p>Loading</p>;
@@ -70,7 +78,13 @@ const Leaves = () => {
         <Row>
           {/* <Leave leaveObject={leaves[0]} /> */}
           {leaves.map((leave) => {
-            return <Leave leaveObject={leave} />;
+            return (
+              <Leave
+                leaveObject={leave}
+                deleteLeave={deleteLeave}
+                updateLeave={updateLeave}
+              />
+            );
           })}
         </Row>
       </div>
